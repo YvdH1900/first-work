@@ -1,0 +1,5 @@
+# 配置文件
+application*.yml
+application*.yaml
+application*.properties
+

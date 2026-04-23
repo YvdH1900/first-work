@@ -1,0 +1,1 @@
+INSERT INTO `address_book` (`id`, `user_id`, `consignee`, `sex`, `phone`, `province_code`, `province_name`, `city_code`, `city_name`, `district_code`, `district_name`, `detail`, `label`, `is_default`) VALUES (5, 4, '8588', '0', '15544555555', '11', '北京市', '1101', '市辖区', '110108', '海淀区', '555', '1', 1);

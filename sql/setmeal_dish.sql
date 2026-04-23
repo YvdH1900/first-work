@@ -1,0 +1,10 @@
+INSERT INTO `setmeal_dish` (`id`, `setmeal_id`, `dish_id`, `name`, `price`, `copies`) VALUES (76, 37, 64, '馋嘴牛蛙', 88.00, 1);
+INSERT INTO `setmeal_dish` (`id`, `setmeal_id`, `dish_id`, `name`, `price`, `copies`) VALUES (77, 37, 63, '香锅牛蛙', 88.00, 1);
+INSERT INTO `setmeal_dish` (`id`, `setmeal_id`, `dish_id`, `name`, `price`, `copies`) VALUES (78, 37, 62, '金汤酸菜牛蛙', 88.00, 1);
+INSERT INTO `setmeal_dish` (`id`, `setmeal_id`, `dish_id`, `name`, `price`, `copies`) VALUES (79, 37, 55, '蒜蓉娃娃菜', 18.00, 1);
+INSERT INTO `setmeal_dish` (`id`, `setmeal_id`, `dish_id`, `name`, `price`, `copies`) VALUES (80, 37, 56, '清炒西兰花', 18.00, 1);
+INSERT INTO `setmeal_dish` (`id`, `setmeal_id`, `dish_id`, `name`, `price`, `copies`) VALUES (81, 38, 62, '金汤酸菜牛蛙', 88.00, 1);
+INSERT INTO `setmeal_dish` (`id`, `setmeal_id`, `dish_id`, `name`, `price`, `copies`) VALUES (82, 38, 63, '香锅牛蛙', 88.00, 1);
+INSERT INTO `setmeal_dish` (`id`, `setmeal_id`, `dish_id`, `name`, `price`, `copies`) VALUES (83, 39, 47, '北冰洋', 4.00, 1);
+INSERT INTO `setmeal_dish` (`id`, `setmeal_id`, `dish_id`, `name`, `price`, `copies`) VALUES (84, 39, 46, '王老吉', 6.00, 1);
+INSERT INTO `setmeal_dish` (`id`, `setmeal_id`, `dish_id`, `name`, `price`, `copies`) VALUES (85, 39, 63, '香锅牛蛙', 88.00, 1);
