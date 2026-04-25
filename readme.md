@@ -17,6 +17,7 @@
 | MyBatis Plus | ORM持久层框架 |
 | MySQL 8.x | 业务数据库 |
 | Redis | 缓存与分布式锁 |
+| RabbitMQ | 消息队列（延迟队列实现订单超时自动取消） |
 | JWT | 用户身份认证 |
 
 ### 前端
@@ -51,6 +52,7 @@
 - Maven 3.6+
 - MySQL 8.x
 - Redis 5.x+
+- RabbitMQ 3.x+
 - Node.js 16+
 
 ## 🚀 后端部署
@@ -60,6 +62,7 @@
 - Maven 3.6+
 - MySQL 8.x
 - Redis 5.x+
+- RabbitMQ 3.x+
 
 ### 部署步骤
 ```bash
@@ -74,7 +77,7 @@ cd sky-take-out
 # 3. 添加配置文件
 # 编辑application-dev.yml
 # 配置数据库、 Redis、OSS、百度AK、微信小程序 连接信息：
-ky:
+sky:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     host: localhost
@@ -98,6 +101,11 @@ ky:
     address: 北京市海淀区
   baidu:
     ak: ！！！！
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
 
 # 4. 启动项目
 mvn clean install
@@ -112,6 +120,9 @@ sky-take-out
 │   └── src
 │       └── main
 │           ├── java/com/sky
+│           │   ├── config/RabbitMQConfiguration.java  # RabbitMQ延迟队列配置
+│           │   ├── mq/OrderTaskProducer.java          # 消息生产者
+│           │   └── mq/OrderTaskConsumer.java          # 消息消费者
 │           └── resources   # 配置文件、Mapper XML
 ├── sql                     # 数据库脚本文件
 └── README.md               # 项目说明文档

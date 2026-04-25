@@ -16,6 +16,21 @@ spring:
     host: ${sky.redis.host}
     port: ${sky.redis.port}
     database: ${sky.redis.database}
+  rabbitmq:
+    host: ${sky.rabbitmq.host}
+    port: ${sky.rabbitmq.port}
+    username: ${sky.rabbitmq.username}
+    password: ${sky.rabbitmq.password}
+    listener:
+      simple:
+        acknowledge-mode: auto # 自动确认消息
+        retry:
+          enabled: true # 开启重试机制
+          max-attempts: 3 # 最大重试次数为3次
+          initial-interval: 1000 # 初始重试间隔为1秒
+          multiplier: 2 # 重试间隔倍数为2
+          max-interval: 10000 # 最大重试间隔为10秒
+        default-requeue-rejected: false # 不重新入队
 
 mybatis:
   #mapper配置文件

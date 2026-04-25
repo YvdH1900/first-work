@@ -14,6 +14,7 @@ import com.sky.entity.*;
 import com.sky.exception.AddressBookBusinessException;
 import com.sky.exception.OrderBusinessException;
 import com.sky.mapper.*;
+import com.sky.mq.OrderTaskProducer;
 import com.sky.result.PageResult;
 import com.sky.service.OrderService;
 import com.sky.utils.HttpClientUtil;
@@ -22,6 +23,9 @@ import com.sky.vo.OrderPaymentVO;
 import com.sky.vo.OrderStatisticsVO;
 import com.sky.vo.OrderSubmitVO;
 import com.sky.vo.OrderVO;
+
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,7 +38,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
+@Slf4j
 @Service
 public class OrderServiceImpl implements OrderService {
     @Autowired
@@ -51,6 +55,8 @@ public class OrderServiceImpl implements OrderService {
     private WeChatPayUtil weChatPayUtil;
     @Autowired
     private WebSocketServer webSocketServer;
+    @Autowired
+    private OrderTaskProducer orderTaskProducer;
     @Value("${sky.shop.address}")
     private String shopAddress;
 
@@ -90,6 +96,10 @@ public class OrderServiceImpl implements OrderService {
 
 
         orderMapper.insert(orders);
+
+        //发送延迟消息，15分钟后自动检查是否支付
+        orderTaskProducer.sendDelayMessage(orders.getId());
+
         //订单详情表插入数据
         List<OrderDetail> orderDetailList = new java.util.ArrayList<>();
         for (ShoppingCart cart : shoppingCartList) {
@@ -151,6 +161,11 @@ public class OrderServiceImpl implements OrderService {
 
         // 根据订单号查询订单
         Orders ordersDB = orderMapper.getByNumber(outTradeNo);
+
+        // 检查订单是否已被取消
+        if (ordersDB.getStatus() == Orders.CANCELLED) {
+            throw new OrderBusinessException(MessageConstant.ORDER_CANCELLED);
+        }
 
         // 根据订单id更新订单的状态、支付方式、支付状态、结账时间
         Orders orders = Orders.builder()
