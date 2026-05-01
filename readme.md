@@ -1,9 +1,9 @@
 # 🍱 外卖速递 - Sky-Take-Out
-> 基于 Spring Boot + Vue3 开发的前后端分离外卖平台，实现用户点餐、商家管理全流程业务
+> 基于 Spring Boot + Vue 2 开发的前后端分离外卖平台，实现用户点餐、商家管理全流程业务
 
 ---
 
-## 📌 项目简介
+##  项目简介
 该项目是一套完整的外卖业务系统，分为**用户端**与**商家端**两大模块，覆盖从商品浏览、下单支付到订单处理、数据统计的全流程场景，适合学习企业级Java全栈开发规范。
 
 ---
@@ -23,9 +23,11 @@
 ### 前端
 | 技术 | 用途 |
 | :--- | :--- |
-| Vue 3 | 前端框架 |
-| Element Plus | UI组件库 |
+| Vue 2 | 前端框架 |
+| TypeScript | 类型安全 |
+| Element UI | UI组件库 |
 | Axios | HTTP请求 |
+| ECharts | 数据可视化 |
 
 ---
 
@@ -55,16 +57,8 @@
 - RabbitMQ 3.x+
 - Node.js 16+
 
-## 🚀 后端部署
+### 后端部署
 
-### 环境准备
-- JDK 11+
-- Maven 3.6+
-- MySQL 8.x
-- Redis 5.x+
-- RabbitMQ 3.x+
-
-### 部署步骤
 ```bash
 # 1. 克隆项目到本地
 git clone https://github.com/YvdH1900/first-work.git
@@ -111,12 +105,36 @@ sky:
 mvn clean install
 mvn spring-boot:run
 ```
+
+### 前端部署
+
+```bash
+# 1. 进入前端项目目录
+cd project-sky-admin-vue-ts
+
+# 2. 安装依赖
+npm install --legacy-peer-deps
+
+# 3. 启动开发服务器
+npm run serve
+
+# 4. 访问 http://localhost:8888
+```
+
 ### 📂 项目结构
 ```text
 sky-take-out
-├── sky-common              # 公共模块（工具类、异常处理、常量定义）
-├── sky-pojo                # 实体类模块（DTO、VO、Entity）
-├── sky-server              # 后端主模块（Controller、Service、Mapper）
+├── project-sky-admin-vue-ts  # 商家管理端前端（Vue2 + TypeScript）
+│   ├── src/
+│   │   ├── api/              # API接口
+│   │   ├── views/            # 页面组件
+│   │   ├── components/       # 公共组件
+│   │   ├── store/            # Vuex状态管理
+│   │   └── router.ts         # 路由配置
+│   └── package.json
+├── sky-common                # 公共模块（工具类、异常处理、常量定义）
+├── sky-pojo                  # 实体类模块（DTO、VO、Entity）
+├── sky-server                # 后端主模块（Controller、Service、Mapper）
 │   └── src
 │       └── main
 │           ├── java/com/sky
@@ -124,6 +142,22 @@ sky-take-out
 │           │   ├── mq/OrderTaskProducer.java          # 消息生产者
 │           │   └── mq/OrderTaskConsumer.java          # 消息消费者
 │           └── resources   # 配置文件、Mapper XML
-├── sql                     # 数据库脚本文件
-└── README.md               # 项目说明文档
+├── sql                       # 数据库脚本文件
+└── README.md                 # 项目说明文档
 ```
+
+---
+
+##  更新日志
+
+### v1.1.0
+- ✅ 集成RabbitMQ延迟队列，替代定时任务实现订单超时自动取消
+- ✅ 实现消息重试与失败队列机制，保障消息可靠消费
+- ✅ 修复订单取消后仍可支付的Bug
+- ✅ 添加商家管理端前端项目（Vue2 + TypeScript）
+
+### v1.0.0
+- ✅ 用户端核心功能（登录、点餐、下单、支付）
+- ✅ 商家端核心功能（菜品管理、订单处理、数据统计）
+- ✅ Redis缓存优化
+- ✅ JWT身份认证
