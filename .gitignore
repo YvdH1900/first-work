@@ -20,3 +20,30 @@ Thumbs.db
 # 日志
 *.log
 
+# Node.js
+node_modules/
+package-lock.json
+yarn.lock
+.npm/
+
+# 内存溢出报告
+report.*.json
+
+# 敏感配置
+.env
+.env.local
+.env.*.local
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+
+# 测试覆盖率
+coverage/
+.nyc_output/
+
