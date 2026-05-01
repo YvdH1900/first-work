@@ -1,15 +1,19 @@
 <template>
-  <div :class="classObj" class="app-wrapper">
-    <div
-      v-if="classObj.mobile && sidebar.opened"
-      class="drawer-bg"
-      @click="handleClickOutside"
-    />
-    <sidebar class="sidebar-container" />
-    <div class="main-container">
-      <navbar />
-      <app-main />
+  <div>
+    <div :class="classObj" class="app-wrapper">
+      <div
+        v-if="classObj.mobile && sidebar.opened"
+        class="drawer-bg"
+        @click="handleClickOutside"
+      />
+      <sidebar class="sidebar-container" />
+      <div class="main-container">
+        <navbar />
+        <app-main />
+      </div>
     </div>
+    <!-- AI助手悬浮球 -->
+    <AIAssistant />
   </div>
 </template>
 
@@ -19,6 +23,7 @@ import { mixins } from 'vue-class-component'
 import { DeviceType, AppModule } from '@/store/modules/app'
 import { AppMain, Navbar, Sidebar } from './components'
 import ResizeMixin from './mixin/resize'
+import AIAssistant from '@/components/AIAssistant/index.vue'
 
 @Component({
   name: 'Layout',
@@ -26,6 +31,7 @@ import ResizeMixin from './mixin/resize'
     AppMain,
     Navbar,
     Sidebar,
+    AIAssistant,
   },
 })
 export default class extends mixins(ResizeMixin) {

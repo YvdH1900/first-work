@@ -70,3 +70,7 @@ sky:
     access-key-id: ${sky.alioss.access-key-id}
     access-key-secret: ${sky.alioss.access-key-secret}
     bucket-name: ${sky.alioss.bucket-name}
+  # AI服务配置
+  ai:
+    # Python AI分析服务地址
+    python-service-url: http://localhost:5000

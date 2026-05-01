@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sky.mapper.AiChatHistoryMapper">
+
+    <!-- 插入对话记录 -->
+    <insert id="insert" parameterType="com.sky.entity.AiChatHistory" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO ai_chat_history (user_id, session_id, role, content, create_time)
+        VALUES (#{userId}, #{sessionId}, #{role}, #{content}, #{createTime})
+    </insert>
+
+    <!-- 批量插入对话记录 -->
+    <insert id="insertBatch" parameterType="java.util.List">
+        INSERT INTO ai_chat_history (user_id, session_id, role, content, create_time)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.userId}, #{item.sessionId}, #{item.role}, #{item.content}, #{item.createTime})
+        </foreach>
+    </insert>
+
+    <!-- 根据会话ID查询对话历史 -->
+    <select id="getBySessionId" resultType="com.sky.entity.AiChatHistory">
+        SELECT id, user_id, session_id, role, content, create_time
+        FROM ai_chat_history
+        WHERE user_id = #{userId} AND session_id = #{sessionId}
+        ORDER BY create_time ASC
+    </select>
+
+    <!-- 查询用户的所有会话信息列表（按最新时间排序，包含会话名称） -->
+    <select id="getSessionsByUserId" resultType="com.sky.vo.SessionVO">
+        SELECT 
+            t1.session_id AS sessionId,
+            CONCAT(
+                LEFT(t1.content, 20),
+                ' ',
+                DATE_FORMAT(t1.create_time, '%m-%d %H:%i')
+            ) AS sessionName
+        FROM ai_chat_history t1
+        INNER JOIN (
+            SELECT session_id, MIN(id) AS min_id
+            FROM ai_chat_history
+            WHERE user_id = #{userId} AND role = 'user'
+            GROUP BY session_id
+        ) t2 ON t1.id = t2.min_id
+        ORDER BY (SELECT MAX(create_time) FROM ai_chat_history WHERE session_id = t1.session_id) DESC
+    </select>
+
+    <!-- 删除指定会话的所有记录 -->
+    <delete id="deleteBySessionId">
+        DELETE FROM ai_chat_history
+        WHERE user_id = #{userId} AND session_id = #{sessionId}
+    </delete>
+
+    <!-- 删除用户的所有对话记录 -->
+    <delete id="deleteByUserId">
+        DELETE FROM ai_chat_history
+        WHERE user_id = #{userId}
+    </delete>
+
+</mapper>

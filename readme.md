@@ -1,10 +1,10 @@
-# 🍱 外卖速递 - Sky-Take-Out
-> 基于 Spring Boot + Vue 2 开发的前后端分离外卖平台，实现用户点餐、商家管理全流程业务
+# 🍱 智营外卖 - Sky-RAG-Take-Out
+> 基于 Spring Boot + Vue 2 开发的前后端分离外卖平台，集成AI智能经营助手，实现用户点餐、商家管理、数据分析全流程业务
 
 ---
 
 ##  项目简介
-该项目是一套完整的外卖业务系统，分为**用户端**与**商家端**两大模块，覆盖从商品浏览、下单支付到订单处理、数据统计的全流程场景，适合学习企业级Java全栈开发规范。
+该项目是一套完整的外卖业务系统，分为**用户端**与**商家端**两大模块，覆盖从商品浏览、下单支付到订单处理、数据统计、AI智能分析的全流程场景，适合学习企业级Java全栈开发规范。
 
 ---
 
@@ -19,6 +19,15 @@
 | Redis | 缓存与分布式锁 |
 | RabbitMQ | 消息队列（延迟队列实现订单超时自动取消） |
 | JWT | 用户身份认证 |
+| OkHttp | HTTP客户端（调用Python AI服务） |
+
+### AI服务
+| 技术 | 用途 |
+| :--- | :--- |
+| Python 3.8+ | AI分析服务开发语言 |
+| Flask | 轻量级Web框架 |
+| OpenAI SDK | 调用通义千问API |
+| 通义千问 | 大语言模型（AI对话生成） |
 
 ### 前端
 | 技术 | 用途 |
@@ -46,6 +55,14 @@
 - 营业状态设置
 - 销量与营业额数据统计
 
+### AI智能助手
+- 悬浮球交互界面，随时唤出
+- 实时经营数据查询（营业额、订单、菜品销量等）
+- 经营趋势分析与优化建议
+- 多轮对话，支持上下文理解
+- 会话管理（新建/切换/删除）
+- 对话历史持久化存储
+
 ---
 
 ## 🚀 快速启动
@@ -56,6 +73,7 @@
 - Redis 5.x+
 - RabbitMQ 3.x+
 - Node.js 16+
+- Python 3.8+（AI服务）
 
 ### 后端部署
 
@@ -100,6 +118,8 @@ sky:
     port: 5672
     username: guest
     password: guest
+  ai:
+    python-service-url: http://localhost:5000
 
 # 4. 启动项目
 mvn clean install
@@ -119,6 +139,32 @@ npm install --legacy-peer-deps
 npm run serve
 
 # 4. 访问 http://localhost:8888
+```
+
+### AI服务部署
+
+```bash
+# 1. 进入AI服务目录
+cd sky-ai
+
+# 2. 创建虚拟环境（推荐）
+python -m venv venv
+source venv/bin/activate  # Linux/Mac
+# 或
+venv\Scripts\activate     # Windows
+
+# 3. 安装依赖
+pip install -r requirements.txt
+
+# 4. 配置API密钥
+# 复制 .env.example 为 .env
+# 填入通义千问API密钥
+cp .env.example .env
+
+# 5. 启动AI服务
+python app.py
+
+# 6. 访问 http://localhost:5000
 ```
 
 ### 📂 项目结构
@@ -142,6 +188,11 @@ sky-take-out
 │           │   ├── mq/OrderTaskProducer.java          # 消息生产者
 │           │   └── mq/OrderTaskConsumer.java          # 消息消费者
 │           └── resources   # 配置文件、Mapper XML
+├── sky-ai                    # AI智能分析服务（Python + Flask）
+│   ├── app.py                # Flask主应用
+│   ├── qwen_client.py        # 通义千问API客户端
+│   ├── requirements.txt      # Python依赖
+│   └── .env.example          # 环境变量模板
 ├── sql                       # 数据库脚本文件
 └── README.md                 # 项目说明文档
 ```
@@ -149,6 +200,14 @@ sky-take-out
 ---
 
 ##  更新日志
+
+### v1.2.0
+- ✅ 集成AI智能经营助手（悬浮球交互界面）
+- ✅ 实现轻量级RAG架构，基于实时经营数据进行AI分析
+- ✅ 支持多轮对话，对话历史持久化存储
+- ✅ 会话管理功能（新建/切换/删除会话）
+- ✅ 接入通义千问大模型API
+- ✅ Java + Python跨语言服务通信
 
 ### v1.1.0
 - ✅ 集成RabbitMQ延迟队列，替代定时任务实现订单超时自动取消

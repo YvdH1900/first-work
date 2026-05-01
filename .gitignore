@@ -47,3 +47,10 @@ venv/
 coverage/
 .nyc_output/
 
+# AI服务相关
+sky-ai/.env
+sky-ai/__pycache__/
+sky-ai/.venv/
+sky-ai/venv/
+sky-ai/*.pyc
+
